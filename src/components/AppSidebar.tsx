@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Sparkles, GitBranch, FolderKanban, Play,
-  Bug, BarChart3, Puzzle, Settings, ChevronLeft, ChevronRight, Zap,
+  Bug, BarChart3, Puzzle, Settings, ChevronRight, Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,8 +18,12 @@ const navItems = [
   { title: "Settings", icon: Settings, path: "/settings" },
 ];
 
-export function AppSidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+interface AppSidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
+export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
   const location = useLocation();
 
   return (
@@ -51,7 +54,7 @@ export function AppSidebar() {
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
-        {navItems.map((item, i) => {
+        {navItems.map((item) => {
           const active = location.pathname === item.path;
           return (
             <Link
@@ -97,7 +100,7 @@ export function AppSidebar() {
 
       {/* Collapse */}
       <motion.button
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={onToggle}
         className="h-10 flex items-center justify-center border-t border-sidebar-border text-sidebar-foreground hover:text-foreground transition-colors"
         whileHover={{ backgroundColor: "hsl(225 11% 15%)" }}
         whileTap={{ scale: 0.95 }}
